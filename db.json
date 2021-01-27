@@ -1,20 +1,3 @@
 {
-  "notes": [
-    {
-      "id": 14,
-      "task": "Learn typescript"
-    },
-    {
-      "id": 273,
-      "task": "Study react"
-    },
-    {
-      "id": 40,
-      "task": "Take a shower"
-    },
-    {
-      "id": 380,
-      "task": "Improve english"
-    }
-  ]
+  "notes": []
 }

@@ -8,6 +8,12 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: 'border-box';
         font-family: 'Ubuntu', sans-serif;
     }
+
+    body{
+        background-color: ${props => props.theme.colors.background}
+    }
+
+
 `
 
 export default GlobalStyle     

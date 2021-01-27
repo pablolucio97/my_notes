@@ -1,4 +1,7 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent, useContext } from 'react';
+
+import GlobalStyle from '../../GlobalStyle'
+import { ThemeContext } from 'styled-components'
 
 import Note, { INotes } from '../../components/Notes/Notes'
 import ModalComponent from '../../components/Modal/Modal'
@@ -6,6 +9,7 @@ import ModalComponent from '../../components/Modal/Modal'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import Switch from 'react-switch'
 
 import axios from 'axios'
 
@@ -23,13 +27,21 @@ import {
 }
   from './styles'
 
-const Main: React.FC = () => {
+interface Props {
+  toggleTheme(): void
+}
+
+
+const Main: React.FC<Props> = ({ toggleTheme }) => {
+  
+  const {title} = useContext(ThemeContext)
 
 
   const [notes, setNotes] = useState<INotes[]>([])
   const [requestCount, setRequestCount] = useState(0)
   const [task, setTask] = useState('')
   const [modal, setModal] = useState(false)
+  const [switcher, setSwitcher] = useState(false)
 
 
   //GET DATA FROM JSON SERVER
@@ -59,7 +71,6 @@ const Main: React.FC = () => {
     } else {
 
       const id = Number((Math.random() * 100 * Math.random() * 5).toFixed(0))
-      console.log(id)
 
       await axios.post('http://localhost:3333/notes', {
         "id": id,
@@ -106,46 +117,58 @@ const Main: React.FC = () => {
 
 
   return (
-    <MainContainer>
-      <Header>
-        <MainTitle>
-          <GrNewWindow /> My Notes
+    <>
+      <GlobalStyle />
+      <MainContainer>
+        <Header>
+          <Switch
+            onChange={toggleTheme}
+            checked={title === 'dark' ? true : false}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            height={15}
+            width={40}
+            handleDiameter={20}
+          />
+          <MainTitle>
+            <GrNewWindow /> My Notes
         </MainTitle>
-      </Header>
-      <ToastContainer />
-      {notes.map(note => (
+        </Header>
+        <ToastContainer />
+        {notes.map(note => (
           <ModalComponent
-          currentTask={task}
-          handleTask={(e: ChangeEvent<HTMLInputElement>) => setTask(e.target.value)}
-          modalStatus={modal}
-          putTask={() => editTask(note.id)}
-          handleModal={() => setModal(!modal)}
-        />
-      ))}
-      <HandleNotesContainer>
-        <NewNoteContainer>
-          <form onSubmit={newNote}>
-            <Input
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setTask(e.target.value)}
-            />
-            <ButtonAdd type='submit'>
-              <GrNewWindow size={24} />
-            </ButtonAdd>
-          </form>
-        </NewNoteContainer>
-        <NotesContainer>
-          {notes?.map(note => (
-            <Note
-              id={note.id}
-              task={note.task}
-              dropTask={() => dropTask(note.id)}
-              editTask={() => editTask(note.id)}
-              enableModal={() => setModal(true)}
-            />
-          ))}
-        </NotesContainer>
-      </HandleNotesContainer>
-    </MainContainer>
+            currentTask={task}
+            handleTask={(e: ChangeEvent<HTMLInputElement>) => setTask(e.target.value)}
+            modalStatus={modal}
+            putTask={() => editTask(note.id)}
+            handleModal={() => setModal(!modal)}
+          />
+        ))}
+        <HandleNotesContainer>
+          <NewNoteContainer>
+            <form onSubmit={newNote}>
+              <Input
+                onChange={(e: ChangeEvent<HTMLInputElement>) => setTask(e.target.value)}
+              />
+              <ButtonAdd type='submit'>
+                <GrNewWindow size={24} />
+              </ButtonAdd>
+            </form>
+          </NewNoteContainer>
+          <NotesContainer>
+            {notes?.map(note => (
+              <Note
+                id={note.id}
+                task={note.task}
+                dropTask={() => dropTask(note.id)}
+                editTask={() => editTask(note.id)}
+                enableModal={() => setModal(true)}
+              />
+            ))}
+          </NotesContainer>
+        </HandleNotesContainer>
+      </MainContainer>
+    </>
   );
 }
 

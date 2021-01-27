@@ -6,7 +6,6 @@ export const MainContainer = styled.div`
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    background-color: #333;
     width: 100%;
     min-height: 100vh;
     overflow-x: hidden;
@@ -19,6 +18,8 @@ export const Header = styled.header`
     width: 100%;
     height: 80px;
     border-bottom: 2px solid #22eeaa;
+    padding-left: 30px;
+    padding-right: 20px;
     background-color: #77ff;
     @media(max-width: 480px){
         display: flex;
@@ -33,8 +34,8 @@ export const Input = styled.input`
     text-align: center;
     width: 200px;
     height: 40px;
-    background: #222;
-    color: #fff;
+    background: ${props => props.theme.colors.background};
+    color: ${props => props.theme.colors.text};
     border: none;
     outline: 1px solid #22eeaa;
     border-radius: 2px;
@@ -66,8 +67,8 @@ export const NewNoteContainer = styled.div`
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background: #222;
-    outline: 1px solid #77ff;
+    background: #333;
+    outline: 1px solid #22eeaa;
 
     
     @media(max-width: 1080px){
@@ -85,7 +86,7 @@ export const NotesContainer = styled.div`
     width: 300px;
     height: 300px;
     padding: 15px;
-    background-color: #222;
+    background-color: ${props => props.theme.colors.background};
     overflow-y: scroll;
 `
 
